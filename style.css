@@ -1,128 +1,157 @@
-/* 1. Global Styles */
-* {
-    box-sizing: border-box; /* Prevents padding from breaking layout */
+:root {
+    --primary-red: #e74c3c;
+    --dark-bg: #0a0a0a;
+    --card-bg: #141414;
+    --text-gray: #b3b3b3;
 }
 
 body {
-    background: #0f0f0f;
+    background-color: var(--dark-bg);
     color: white;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Inter', sans-serif;
     margin: 0;
-    min-height: 100vh; /* Ensures background covers full screen height */
     display: flex;
     flex-direction: column;
 }
 
-/* 2. Navbar & Search */
-.navbar {
-    background: #151515;
-    padding: 20px 5%;
+/* Header Section */
+.header {
+    background: #111;
+    padding: 15px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #ff3b3b; /* Red accent line */
-    position: sticky;
-    top: 0;
-    z-index: 100;
+    border-bottom: 1px solid #222;
 }
 
-.navbar h1 {
-    margin: 0;
-    font-size: 24px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+.logo {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -1px;
 }
 
-.navbar input {
-    padding: 12px 20px;
-    border-radius: 8px;
-    border: 1px solid #333;
-    width: 300px;
-    background: #222;
-    color: white;
-    outline: none;
-    transition: 0.3s;
+.logo span {
+    color: var(--primary-red);
 }
 
-.navbar input:focus {
-    border-color: #ff3b3b;
-    box-shadow: 0 0 10px rgba(255, 59, 59, 0.2);
-}
-
-/* 3. Mods Grid Container */
-.mods {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center; /* Centers cards horizontally */
-    align-content: flex-start; /* Keeps them at the top */
-    padding: 40px 20px;
-    max-width: 1200px;
-    margin: 0 auto; /* Centers the whole container */
-    gap: 25px; /* Modern spacing between cards */
-}
-
-/* 4. Individual Mod Cards */
-.mod-card {
+.header input {
     background: #1a1a1a;
-    width: 320px; /* Slightly wider for better proportions */
-    border-radius: 12px;
-    text-align: center;
-    overflow: hidden; /* Clips image to rounded corners */
-    border: 1px solid #2a2a2a;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    padding-bottom: 20px;
+    border: 1px solid #333;
+    padding: 10px 15px;
+    border-radius: 4px;
+    color: white;
+    width: 300px;
 }
 
-.mod-card:hover {
-    transform: translateY(-8px); /* Lifts up on hover */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-    border-color: #444;
-}
-
-.mod-card img {
+/* Layout Wrapper */
+.main-content {
+    display: flex;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
     width: 100%;
-    height: 180px;
-    object-fit: cover; /* Prevents images from stretching */
-    background: #252525; /* Placeholder color while loading */
 }
 
-.mod-card h2 {
-    margin: 15px 0 5px 0;
-    font-size: 20px;
+/* Sidebar Styling */
+.sidebar {
+    width: 200px;
+    padding-right: 20px;
 }
 
-.mod-card p {
-    color: #aaa;
+.sidebar h3 {
     font-size: 14px;
-    padding: 0 15px;
+    color: var(--text-gray);
+    text-transform: uppercase;
     margin-bottom: 15px;
 }
 
-/* 5. Buttons */
-.download {
-    display: inline-block;
-    padding: 10px 25px;
-    background: #ff3b3b;
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li a {
     color: white;
     text-decoration: none;
-    border-radius: 6px;
+    display: block;
+    padding: 8px 0;
+    font-size: 15px;
+    transition: 0.2s;
+}
+
+.sidebar ul li a:hover {
+    color: var(--primary-red);
+}
+
+/* The Grid */
+.mods {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* Card Styling */
+.mod-card {
+    background: var(--card-bg);
+    border-radius: 4px; /* Sharper corners like the leak site */
+    overflow: hidden;
+    border: 1px solid #222;
+    transition: border 0.3s;
+}
+
+.mod-card:hover {
+    border-color: var(--primary-red);
+}
+
+.img-container {
+    position: relative;
+    height: 150px;
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: var(--primary-red);
+    font-size: 10px;
+    padding: 2px 6px;
     font-weight: bold;
-    text-transform: uppercase;
+}
+
+.card-info {
+    padding: 15px;
+}
+
+.card-info h2 {
+    font-size: 16px;
+    margin: 0 0 5px 0;
+}
+
+.card-info p {
     font-size: 13px;
-    transition: background 0.2s;
+    color: var(--text-gray);
+    margin-bottom: 15px;
+}
+
+.download {
+    display: block;
+    background: #222;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    padding: 8px;
+    border-radius: 3px;
+    font-size: 13px;
+    transition: 0.3s;
 }
 
 .download:hover {
-    background: #e62e2e;
-}
-
-/* Responsive: Shrink search bar on mobile */
-@media (max-width: 600px) {
-    .navbar {
-        flex-direction: column;
-        gap: 15px;
-    }
-    .navbar input {
-        width: 100%;
-    }
+    background: var(--primary-red);
 }

@@ -8,32 +8,34 @@
 
 <body>
 
-<header>
+<div class="navbar">
 <h1>BeamMods</h1>
-<p>Download the best BeamNG mods</p>
-</header>
 
-<div class="mods">
+<input type="text" id="search" placeholder="Search mods..." onkeyup="searchMods()">
+
+</div>
+
+<div class="mods" id="mods">
 
 <div class="mod-card">
 <img src="https://via.placeholder.com/300x150">
 <h2>BMW M4</h2>
-<p>High quality BeamNG mod</p>
-<button onclick="download()">Download</button>
+<p>High quality BeamNG car mod</p>
+<a href="mods/bmw-m4.html" class="download">View Mod</a>
 </div>
 
 <div class="mod-card">
 <img src="https://via.placeholder.com/300x150">
 <h2>Nissan GTR</h2>
-<p>Realistic engine sounds</p>
-<button onclick="download()">Download</button>
+<p>Realistic engine and sounds</p>
+<a href="mods/gtr.html" class="download">View Mod</a>
 </div>
 
 <div class="mod-card">
 <img src="https://via.placeholder.com/300x150">
 <h2>Ford Mustang</h2>
 <p>Detailed interior</p>
-<button onclick="download()">Download</button>
+<a href="mods/mustang.html" class="download">View Mod</a>
 </div>
 
 </div>

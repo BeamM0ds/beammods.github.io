@@ -1,57 +1,54 @@
-body{
-background:#0f0f0f;
-color:white;
-font-family:Arial;
-margin:0;
+/* Ensure the page takes up the full screen height */
+html, body {
+  height: 100%;
+  margin: 0;
 }
 
-.navbar{
-background:#151515;
-padding:20px;
-display:flex;
-justify-content:space-between;
-align-items:center;
+body {
+  background: #0f0f0f;
+  color: white;
+  font-family: 'Segoe UI', Arial, sans-serif; /* Cleaner font */
+  display: flex;
+  flex-direction: column;
 }
 
-.navbar input{
-padding:10px;
-border-radius:6px;
-border:none;
-width:200px;
+.mods {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start; /* Keeps cards at the top instead of floating in the middle */
+  padding: 40px;
+  flex-grow: 1; /* This pushes the background all the way to the bottom */
 }
 
-.mods{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-padding:30px;
+/* Make cards slightly larger and more modern */
+.mod-card {
+  background: #1a1a1a;
+  width: 300px; /* Slightly wider */
+  margin: 20px;
+  padding: 0 0 20px 0; /* Remove top padding so image hits the edges */
+  border-radius: 12px;
+  text-align: center;
+  overflow: hidden; /* Clips the image corners to the card */
+  border: 1px solid #333; /* Adds a subtle outline */
+  transition: 0.3s;.navbar {
+  background: #151515;
+  padding: 20px 50px;
+  display: flex;
+  flex-direction: column; /* Stack Title and Search */
+  gap: 15px;
+  text-align: center;
+  border-bottom: 2px solid #ff3b3b; /* Cool red accent line */
 }
 
-.mod-card{
-background:#1a1a1a;
-width:260px;
-margin:15px;
-padding:15px;
-border-radius:10px;
-text-align:center;
-transition:0.2s;
+.navbar input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  width: 100%;
+  max-width: 400px; /* Centered and wider */
+  background: #222;
+  color: white;
+  margin: 0 auto;
 }
-
-.mod-card:hover{
-transform:scale(1.05);
-}
-
-.mod-card img{
-width:100%;
-border-radius:8px;
-}
-
-.download{
-display:inline-block;
-margin-top:10px;
-padding:10px 20px;
-background:#ff3b3b;
-color:white;
-text-decoration:none;
-border-radius:6px;
 }

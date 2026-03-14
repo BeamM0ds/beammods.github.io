@@ -53,9 +53,67 @@ body {
 }
 
 /* Sidebar Styling */
+/* Sidebar Container */
 .sidebar {
-    width: 200px;
-    padding-right: 20px;
+    width: 240px;
+    padding-right: 25px;
+    position: sticky;
+    top: 20px; 
+    height: fit-content;
+}
+
+.sidebar-group {
+    margin-bottom: 30px;
+}
+
+.sidebar-group h3 {
+    font-size: 11px;
+    color: #555; 
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+    padding-left: 12px;
+}
+
+/* Individual Links */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    color: #b3b3b3;
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    margin-bottom: 4px;
+    position: relative;
+}
+
+.sidebar-link:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+}
+
+.sidebar-link.active {
+    background: rgba(231, 76, 60, 0.1); 
+    color: #e74c3c;
+}
+
+.sidebar-link.active::before {
+    content: "";
+    position: absolute;
+    left: -5px;
+    top: 20%;
+    height: 60%;
+    width: 3px;
+    background: #e74c3c;
+    border-radius: 0 4px 4px 0;
+}
+
+.sidebar-link .icon {
+    margin-right: 12px;
+    font-size: 16px;
 }
 
 .sidebar h3 {

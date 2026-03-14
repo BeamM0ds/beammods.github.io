@@ -1,51 +1,53 @@
 let allMods = [];
 
-// 1. Load data from mods.json
 async function loadMods() {
+    const modsContainer = document.getElementById('mods');
     try {
-        const response = await fetch('mods.json');
-        if (!response.ok) throw new Error("Could not find mods.json");
+        // Adding a timestamp (?t=) forces the browser to download the NEWEST version of the JSON
+        const response = await fetch('mods.json?t=' + Date.now());
         
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         allMods = await response.json();
+        console.log("Successfully loaded mods:", allMods);
         renderMods(allMods);
+
     } catch (error) {
-        console.error("Error loading mods:", error);
-        const container = document.getElementById('mods');
-        if (container) {
-            container.innerHTML = `<p style="color:red; padding:20px;">Error loading mods. Check if mods.json exists!</p>`;
+        console.error("JSON Error:", error);
+        if (modsContainer) {
+            modsContainer.innerHTML = `
+                <div style="color: #ff4444; padding: 20px; border: 1px dashed #ff4444; border-radius: 8px;">
+                    <h3>⚠️ JSON Data Error</h3>
+                    <p>The website found <b>mods.json</b>, but it can't read it. This usually means a missing comma or bracket.</p>
+                    <p><small>Technical Error: ${error.message}</small></p>
+                </div>
+            `;
         }
     }
 }
 
-// 2. Render the cards to the screen
 function renderMods(modsToDisplay) {
     const modsContainer = document.getElementById('mods');
     if (!modsContainer) return;
-
     modsContainer.innerHTML = ''; 
 
-    if (modsToDisplay.length === 0) {
-        modsContainer.innerHTML = `<p style="color:#555; padding:20px;">No mods found matching your search.</p>`;
-        return;
-    }
-
-    modsToDisplay.forEach((mod) => {
-        // Find the index of this mod in the main list to use for the Detail Page link
+    modsToDisplay.forEach((mod, index) => {
+        // We use the index from the main allMods array for the link
         const originalIndex = allMods.findIndex(m => m.name === mod.name);
         
         const card = document.createElement('div');
         card.className = 'mod-card';
-        card.setAttribute('data-category', mod.category.toLowerCase().trim());
-
         card.innerHTML = `
             <div class="img-container">
-                <img src="${mod.image}" alt="${mod.name}">
+                <img src="${mod.image}" alt="${mod.name}" onerror="this.src='https://via.placeholder.com/300x180?text=Image+Missing'">
                 ${mod.tag ? `<div class="tag">${mod.tag}</div>` : ''}
             </div>
             <div class="card-info">
                 <h2>${mod.name}</h2>
-                <p style="color: #3498db; font-size: 13px; margin-bottom: 5px; font-weight: 600;">by ${mod.author || 'Unknown'}</p>
-                <p>${mod.description.substring(0, 80)}...</p>
+                <p style="color: #3498db; font-size: 13px; margin-bottom: 5px; font-weight: 600;">by ${mod.author || 'Royal Renderings'}</p>
+                <p>${mod.description}</p>
                 <a href="details.html?id=${originalIndex}" class="download">View Mod</a>
             </div>
         `;
@@ -53,20 +55,9 @@ function renderMods(modsToDisplay) {
     });
 }
 
-// 3. Category Filter Logic
+// Category logic
 function filterSelection(category) {
-    const links = document.querySelectorAll(".sidebar-link");
     const target = category.toLowerCase().trim();
-
-    // Update active UI state
-    links.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute('onclick').includes(`'${category}'`)) {
-            link.classList.add("active");
-        }
-    });
-
-    // Filter data
     if (target === "all") {
         renderMods(allMods);
     } else {
@@ -75,18 +66,14 @@ function filterSelection(category) {
     }
 }
 
-// 4. Search Bar Logic
+// Search logic
 function searchMods() {
     const searchTerm = document.getElementById("search").value.toLowerCase();
-    
     const filtered = allMods.filter(mod => 
         mod.name.toLowerCase().includes(searchTerm) || 
-        mod.author.toLowerCase().includes(searchTerm) ||
         mod.description.toLowerCase().includes(searchTerm)
     );
-
     renderMods(filtered);
 }
 
-// Initial Load
 window.onload = loadMods;

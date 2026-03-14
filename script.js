@@ -3,11 +3,10 @@ let allMods = [];
 async function loadMods() {
     try {
         const response = await fetch('mods.json?t=' + Date.now());
-        if (!response.ok) throw new Error("File not found");
         allMods = await response.json();
         renderMods(allMods);
     } catch (e) {
-        document.getElementById('mods').innerHTML = `<p style="color:red">JSON Error: Make sure mods.json has [ ] brackets!</p>`;
+        document.getElementById('mods').innerHTML = "<p style='color:red;'>Error: Check mods.json formatting!</p>";
     }
 }
 
@@ -19,27 +18,27 @@ function renderMods(mods) {
         const card = document.createElement('div');
         card.className = 'mod-card';
         card.innerHTML = `
-            <div class="img-container">
-                <img src="${mod.image}">
-                <div class="tag">${mod.tag || ''}</div>
+            <div style="position:relative; aspect-ratio:16/9; overflow:hidden;">
+                <img src="${mod.image}" style="width:100%; height:100%; object-fit:cover;">
+                <div style="position:absolute; top:10px; left:10px; background:#3498db; color:white; padding:4px 8px; font-size:10px; font-weight:800; border-radius:4px;">${mod.tag || 'NEW'}</div>
             </div>
             <div class="card-info">
-                <h2>${mod.name}</h2>
-                <p style="color:#3498db; font-size:12px; font-weight:600;">by ${mod.author || 'Royal Renderings'}</p>
-                <p style="font-size:13px; color:#888;">${mod.description.substring(0, 60)}...</p>
-                <a href="details.html?id=${idx}" class="download">View Mod</a>
+                <h2 style="margin:0; font-size:18px;">${mod.name}</h2>
+                <p style="color:#3498db; font-size:12px; font-weight:600; margin:5px 0;">by ${mod.author || 'Royal Renderings'}</p>
+                <p style="color:#888; font-size:13px; margin-bottom:15px;">${mod.description.substring(0, 60)}...</p>
+                <a href="details.html?id=${idx}" class="view-btn">View Mod</a>
             </div>`;
         container.appendChild(card);
     });
 }
 
 function filterSelection(cat) {
-    renderMods(cat === 'all' ? allMods : allMods.filter(m => m.category === cat));
+    renderMods(cat === 'all' ? allMods : allMods.filter(m => m.category.toLowerCase() === cat.toLowerCase()));
 }
 
 function searchMods() {
     const term = document.getElementById('search').value.toLowerCase();
-    renderMods(allMods.filter(m => m.name.toLowerCase().includes(term)));
+    renderMods(allMods.filter(m => m.name.toLowerCase().includes(term) || m.author.toLowerCase().includes(term)));
 }
 
 window.onload = loadMods;

@@ -6,6 +6,43 @@
     <title>BeamMods | Premium BeamNG Mods</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <style>
+.discord-glitch-btn {
+    background: #161b22; /* Same background as the menu button */
+    color: white;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px; /* Rounded square look */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: 1px solid #21262d;
+    transition: 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Creating the glitch/neon effect on the logo */
+.discord-glitch-btn svg {
+    filter: 
+        drop-shadow(-1px -1px 0px #ff3e3e) /* Red glow offset */
+        drop-shadow(1px 1px 0px #3498db);  /* Blue glow offset */
+    transition: 0.2s;
+}
+
+.discord-glitch-btn:hover {
+    background: #1c2128;
+    border-color: #3498db;
+    transform: scale(1.05);
+}
+
+.discord-glitch-btn:hover svg {
+    filter: 
+        drop-shadow(-2px -1px 0px #ff3e3e) 
+        drop-shadow(2px 1px 0px #3498db);
+    transform: rotate(-2deg);
+}
+        
         body { background-color: #0b0e14; color: white; margin: 0; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
         /* HEADER */

@@ -218,4 +218,30 @@ body {
     .sidebar.open {
         left: 0;
     }
+    
+}/* DISCORD BUTTON STYLE */
+.discord-btn {
+    background: #5865F2; /* Official Discord Blue */
+    color: white;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.2);
+}
+
+.discord-btn:hover {
+    background: #4752c4;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+}
+
+/* Ensure header scales well with the new button */
+@media (max-width: 600px) {
+    .discord-btn span { display: none; } /* Hide text on small phones, show only icon/box */
+    .discord-btn::before { content: '💬'; } 
 }

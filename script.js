@@ -22,14 +22,14 @@ function renderMods(mods) {
         card.innerHTML = `
             <div style="position:relative; aspect-ratio:16/9; overflow:hidden;">
                 <img src="${mod.image}" style="width:100%; height:100%; object-fit:cover;">
-                <div style="position:absolute; top:12px; left:12px; background:#3498db; color:white; padding:5px 10px; font-size:10px; font-weight:800; border-radius:6px; text-transform:uppercase;">${mod.tag || 'NEW'}</div>
+                <div style="position:absolute; top:12px; left:12px; background:#ff3e3e; color:white; padding:5px 10px; font-size:10px; font-weight:800; border-radius:6px; text-transform:uppercase;">${mod.tag || 'NEW'}</div>
             </div>
             <div style="padding:20px;">
                 <h2 style="margin:0; font-size:18px; font-weight:700;">${mod.name}</h2>
                 <p style="color:#3498db; font-size:12px; font-weight:600; margin:6px 0;">by ${mod.author || 'Royal Renderings'}</p>
                 <p style="color:#888; font-size:13px; margin-bottom:15px; line-height:1.4;">${mod.description.substring(0, 65)}...</p>
                 
-                <div style="display:block; text-align:center; background:#3498db; color:white; padding:12px; border-radius:10px; font-weight:700; font-size:14px;">
+                <div style="display:block; text-align:center; background:#ff3e3e; color:white; padding:12px; border-radius:10px; font-weight:700; font-size:14px;">
                     View Mod
                 </div>
             </div>`;

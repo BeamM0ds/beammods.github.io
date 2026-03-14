@@ -1,20 +1,36 @@
-function searchMods() {
-    // 1. Get what the user typed
-    let input = document.getElementById("search").value.toLowerCase();
-    
-    // 2. Get all the mod cards
-    let mods = document.getElementsByClassName("mod-card");
+// Filter mods by clicking sidebar links
+function filterSelection(category) {
+    const mods = document.getElementsByClassName("mod-card");
+    const links = document.getElementsByClassName("sidebar-link");
 
-    for (let i = 0; i < mods.length; i++) {
-        // 3. Specifically target the <h2> tag inside the card for the name
-        // This is more reliable than checking the whole card's text
-        let title = mods[i].querySelector("h2").innerText.toLowerCase();
+    // Change active button styling
+    for (let link of links) {
+        link.classList.remove("active");
+    }
+    event.currentTarget.classList.add("active");
 
-        // 4. Check if the title contains the search input
-        if (title.includes(input)) {
-            mods[i].style.display = "block"; // Force it to show
+    // Filter logic
+    for (let mod of mods) {
+        const itemCategory = mod.getAttribute("data-category");
+        if (category === "all" || itemCategory === category) {
+            mod.style.display = "block";
         } else {
-            mods[i].style.display = "none";  // Hide it
+            mod.style.display = "none";
+        }
+    }
+}
+
+// Search mods by typing
+function searchMods() {
+    const input = document.getElementById("search").value.toLowerCase();
+    const mods = document.getElementsByClassName("mod-card");
+
+    for (let mod of mods) {
+        const title = mod.querySelector("h2").innerText.toLowerCase();
+        if (title.includes(input)) {
+            mod.style.display = "block";
+        } else {
+            mod.style.display = "none";
         }
     }
 }

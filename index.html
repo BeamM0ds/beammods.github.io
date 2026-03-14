@@ -5,14 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeamMods | Premium BeamNG Mods</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <header class="header">
-        <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">BEAM<span>MODS</span></div>
+        <div class="logo" onclick="window.location.href='index.html'">BEAM<span>MODS</span></div>
         <div class="search-container">
-            <input type="text" id="search" placeholder="Search for mods..." onkeyup="searchMods()">
+            <input type="text" id="search" placeholder="Search for mods..." oninput="searchMods()">
         </div>
     </header>
 
@@ -20,30 +19,19 @@
         <aside class="sidebar">
             <div class="sidebar-group">
                 <h3>Browse</h3>
-                <a href="#" class="sidebar-link active" onclick="filterSelection('all')">
-                    <span class="icon">🏠</span> All Mods
-                </a>
+                <a href="#" class="sidebar-link active" onclick="filterSelection('all')">🏠 All Mods</a>
             </div>
-
             <div class="sidebar-group">
                 <h3>Categories</h3>
-                <a href="#" class="sidebar-link" onclick="filterSelection('cars')">
-                    <span class="icon">🏎️</span> Cars
-                </a>
-                <a href="#" class="sidebar-link" onclick="filterSelection('trucks')">
-                    <span class="icon">🚛</span> Trucks
-                </a>
-                <a href="#" class="sidebar-link" onclick="filterSelection('maps')">
-                    <span class="icon">🗺️</span> Maps
-                </a>
+                <a href="#" class="sidebar-link" onclick="filterSelection('cars')">🏎️ Cars</a>
+                <a href="#" class="sidebar-link" onclick="filterSelection('trucks')">🚛 Trucks</a>
+                <a href="#" class="sidebar-link" onclick="filterSelection('maps')">🗺️ Maps</a>
             </div>
         </aside>
-
         <section class="mods" id="mods">
-            <div style="color: #555; padding: 20px;">Loading mods...</div>
+            <p style="color: #555;">Loading mods...</p>
         </section>
     </main>
-
     <script src="script.js"></script>
 </body>
 </html>

@@ -58,3 +58,28 @@ function searchMods() {
 }
 
 window.onload = loadMods;
+
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar-menu');
+    
+    // This works for Desktop (sliding it away)
+    sidebar.classList.toggle('hidden');
+    
+    // This works for Mobile (sliding it in)
+    sidebar.classList.toggle('open');
+}
+
+// Close sidebar automatically when a category is clicked (good for mobile)
+function filterSelection(cat, element) {
+    const links = document.querySelectorAll('.sidebar-link');
+    links.forEach(l => l.classList.remove('active'));
+    if (element) element.classList.add('active');
+    
+    // Hide sidebar after picking a category if on a small screen
+    if (window.innerWidth < 768) {
+        toggleSidebar();
+    }
+
+    const filtered = cat === 'all' ? allMods : allMods.filter(m => m.category.toLowerCase() === cat.toLowerCase());
+    renderMods(filtered);
+}

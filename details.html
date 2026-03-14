@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mod Details | BeamMods</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .details-layout { max-width: 1200px; margin: 40px auto; padding: 20px; display: grid; grid-template-columns: 1fr 350px; gap: 40px; }
+        .hero-img { width: 100%; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .sidebar-card { background: #111; padding: 25px; border-radius: 15px; border: 1px solid #222; height: fit-content; }
+        .dl-button { display: block; background: #007bff; color: white; text-align: center; padding: 15px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 18px; transition: 0.3s; }
+        .dl-button:hover { background: #0056b3; transform: translateY(-2px); }
+        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #222; color: #888; }
+        .info-row span { color: white; font-weight: 600; }
+        @media (max-width: 900px) { .details-layout { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">BEAM<span>MODS</span></div>
+    </header>
+
+    <main class="details-layout" id="details-content">
+        <p>Loading mod details...</p>
+    </main>
+
+    <script>
+        async function loadDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id');
+            const response = await fetch('mods.json');
+            const mods = await response.json();
+            const mod = mods[id];
+
+            if (!mod) {
+                document.getElementById('details-content').innerHTML = "<h1>Mod Not Found</h1>";
+                return;
+            }
+
+            document.getElementById('details-content').innerHTML = `
+                <div class="main-content">
+                    <img src="${mod.image}" class="hero-img">
+                    <h1 style="font-size: 32px; margin: 30px 0 10px;">${mod.name}</h1>
+                    <p style="color: #aaa; line-height: 1.8; font-size: 16px;">${mod.description}</p>
+                </div>
+                <aside class="sidebar-card">
+                    <a href="${mod.download}" target="_blank" class="dl-button">Download Now</a>
+                    <div class="info-row">Category <span>${mod.category}</span></div>
+                    <div class="info-row">Status <span>${mod.tag || 'Public'}</span></div>
+                    <div class="info-row">Version <span>1.4</span></div>
+                </aside>
+            `;
+        }
+        loadDetails();
+    </script>
+</body>
+</html>

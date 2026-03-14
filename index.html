@@ -6,103 +6,56 @@
     <title>BeamMods | Premium BeamNG Mods</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
     <style>
-.discord-glitch-btn {
-    background: #161b22; /* Same background as the menu button */
-    color: white;
-    width: 42px;
-    height: 42px;
-    border-radius: 10px; /* Rounded square look */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    border: 1px solid #21262d;
-    transition: 0.2s;
-    position: relative;
-    overflow: hidden;
-}
-
-/* Creating the glitch/neon effect on the logo */
-.discord-glitch-btn svg {
-    filter: 
-        drop-shadow(-1px -1px 0px #ff3e3e) /* Red glow offset */
-        drop-shadow(1px 1px 0px #3498db);  /* Blue glow offset */
-    transition: 0.2s;
-}
-
-.discord-glitch-btn:hover {
-    background: #1c2128;
-    border-color: #3498db;
-    transform: scale(1.05);
-}
-
-.discord-glitch-btn:hover svg {
-    filter: 
-        drop-shadow(-2px -1px 0px #ff3e3e) 
-        drop-shadow(2px 1px 0px #3498db);
-    transform: rotate(-2deg);
-}
-        
         body { background-color: #0b0e14; color: white; margin: 0; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
         /* HEADER */
         .header { 
-            background: #0b0e14; 
-            border-bottom: 1px solid #1c2128; 
-            padding: 12px 30px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+            background: #0b0e14; border-bottom: 1px solid #1c2128; padding: 12px 30px; 
+            display: flex; justify-content: space-between; align-items: center; 
             position: sticky; top: 0; z-index: 1000;
         }
+        .header-left { display: flex; align-items: center; gap: 15px; }
 
-        .header-left { display: flex; align-items: center; gap: 20px; }
-
-        /* MENU BUTTON */
+        /* GLITCH MENU BUTTON */
         #menu-toggle {
-            background: #161b22;
-            border: 1px solid #30363d;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: 0.2s;
+            background: #161b22; border: 1px solid #21262d; padding: 10px; 
+            border-radius: 10px; cursor: pointer; display: flex; transition: 0.2s;
         }
-        #menu-toggle:hover { background: #3498db; border-color: #3498db; }
+        .glitch-icon { display: flex; flex-direction: column; gap: 4px; }
+        .glitch-icon span { 
+            display: block; width: 18px; height: 2px; background: white; 
+            box-shadow: -1.5px 0 0 #ff3e3e, 1.5px 0 0 #3498db; 
+        }
 
         /* LOGO */
         .logo { font-weight: 900; letter-spacing: 5px; font-size: 20px; text-transform: uppercase; cursor: pointer; }
         .logo span { color: #3498db; text-shadow: 0 0 15px rgba(52, 152, 219, 0.5); }
 
-        /* SLIM SEARCH */
-        .search-container { background: #11141a; border: 1px solid #21262d; border-radius: 4px; padding: 2px 12px; display: flex; align-items: center; }
-        .search-container input { background: transparent; border: none; color: white; padding: 6px 0; width: 180px; outline: none; font-size: 13px; }
-
-        /* SIDEBAR (TOGGLEABLE) */
-        .main-layout { display: flex; max-width: 1400px; margin: 0 auto; padding: 25px; gap: 40px; }
+        /* DISCORD & SEARCH AREA */
+        .header-right { display: flex; align-items: center; gap: 12px; }
         
-        .sidebar { 
-            width: 240px; 
-            flex-shrink: 0; 
-            transition: transform 0.3s ease, width 0.3s ease, opacity 0.3s ease;
+        .discord-glitch-btn {
+            background: #161b22; border: 1px solid #21262d; width: 38px; height: 38px;
+            border-radius: 10px; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; color: white; transition: 0.2s;
         }
+        .discord-glitch-btn svg { filter: drop-shadow(-1.5px 0 0 #ff3e3e) drop-shadow(1.5px 0 0 #3498db); }
 
-        /* The "Hidden" Class for the button to work */
-        .sidebar.hidden {
-            width: 0;
-            transform: translateX(-300px);
-            opacity: 0;
-            margin-right: -40px; /* Removes the gap when closed */
-        }
+        .search-container { background: #11141a; border: 1px solid #21262d; border-radius: 4px; padding: 2px 12px; display: flex; }
+        .search-container input { background: transparent; border: none; color: white; padding: 6px 0; width: 160px; outline: none; font-size: 13px; }
+
+        /* SIDEBAR & LAYOUT */
+        .main-layout { display: flex; max-width: 1400px; margin: 0 auto; padding: 25px; gap: 40px; }
+        .sidebar { width: 240px; flex-shrink: 0; transition: all 0.3s ease; }
+        .sidebar.hidden { width: 0; transform: translateX(-300px); opacity: 0; margin-right: -40px; }
 
         .sidebar-title { color: #444; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin: 25px 0 10px 12px; text-transform: uppercase; }
         .sidebar-link { 
             display: flex; align-items: center; color: #8b949e; text-decoration: none; 
             padding: 10px 14px; border-radius: 8px; margin-bottom: 2px; transition: 0.2s; font-weight: 600; font-size: 13.5px; 
         }
-        .sidebar-link:hover { color: white; background: #1c2128; }
-        .sidebar-link.active { background: #1c2128; color: white; border-left: 3px solid #3498db; }
+        .sidebar-link:hover, .sidebar-link.active { color: white; background: #1c2128; }
+        .sidebar-link.active { border-left: 3px solid #3498db; }
         .sidebar-link span { margin-right: 12px; font-size: 16px; }
 
         /* MOD GRID */
@@ -113,26 +66,23 @@
 </head>
 <body>
 
-<header class="header">
-    <div class="header-left">
-        <button id="menu-toggle" onclick="toggleSidebar()">
-            <img src="image_b53880.png" style="width: 20px; height: 20px;" alt="Menu">
-        </button>
-        <div class="logo" onclick="window.location.href='index.html'">BEAM<span>MODS</span></div>
-    </div>
-    
-    <div style="display: flex; align-items: center; gap: 15px;">
-        <a href="https://discord.gg/whUdZ2gTTe" target="_blank" class="discord-glitch-btn" title="Join our Discord">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037 19.736 19.736 0 0 0-4.885 1.515.069.069 0 0 0-.032.027C.533 9.048-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.23 10.23 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.06.06 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.419-2.157 2.419z"/>
-            </svg>
-        </a>
-
-        <div class="search-container">
-            <input type="text" id="search" placeholder="Search mods..." oninput="searchMods()">
+    <header class="header">
+        <div class="header-left">
+            <button id="menu-toggle" onclick="toggleSidebar()">
+                <div class="glitch-icon"><span></span><span></span><span></span></div>
+            </button>
+            <div class="logo" onclick="window.location.href='index.html'">BEAM<span>MODS</span></div>
         </div>
-    </div>
-</header>
+        <div class="header-right">
+            <a href="https://discord.gg/whUdZ2gTTe" target="_blank" class="discord-glitch-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037 19.736 19.736 0 0 0-4.885 1.515.069.069 0 0 0-.032.027C.533 9.048-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.23 10.23 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.06.06 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.419-2.157 2.419z"/></svg>
+            </a>
+            <div class="search-container">
+                <input type="text" id="search" placeholder="Search mods..." oninput="searchMods()">
+            </div>
+        </div>
+    </header>
+
     <main class="main-layout">
         <aside class="sidebar" id="sidebar-menu">
             <div class="sidebar-title">Main</div>
@@ -140,17 +90,15 @@
             <div class="sidebar-title">Vehicles</div>
             <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('cars', this)"><span>🏎️</span> Cars</a>
             <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('trucks', this)"><span>🚛</span> Trucks</a>
-            <div class="sidebar-title">Custom</div>
-            <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('parts', this)"><span>🔧</span> Parts</a>
-            <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('skins', this)"><span>🎨</span> Skins</a>
+            <div class="sidebar-title">Customization</div>
+            <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('parts', this)"><span>🔧</span> Vehicle Parts</a>
+            <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('skins', this)"><span>🎨</span> Skins & Liveries</a>
             <div class="sidebar-title">World</div>
             <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('maps', this)"><span>🗺️</span> Maps</a>
         </aside>
-
-        <section class="mods" id="mods">
-            </section>
+        <section class="mods" id="mods"></section>
     </main>
 
-    <script src="script.js?v=final"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,30 +1,28 @@
-// Variable to store mods globally so search/filter can access them easily
 let allMods = [];
 
 async function loadMods() {
     try {
+        console.log("Attempting to load mods.json...");
         const response = await fetch('mods.json');
         allMods = await response.json();
+        console.log("Mods loaded successfully:", allMods);
         renderMods(allMods);
     } catch (error) {
         console.error("Error loading mods:", error);
-        document.getElementById('mods').innerHTML = "<p style='color:red;'>Failed to load mods. Check mods.json for typos!</p>";
     }
 }
 
-// Function to actually draw the cards on the screen
 function renderMods(modsToDisplay) {
     const modsContainer = document.getElementById('mods');
+    if (!modsContainer) return;
+    
     modsContainer.innerHTML = ''; 
 
     modsToDisplay.forEach((mod) => {
-        // We find the original index of the mod in the main list for the link
-        const originalIndex = allMods.indexOf(mod);
-        
+        const originalIndex = allMods.findIndex(m => m.name === mod.name);
         const card = document.createElement('div');
         card.className = 'mod-card';
-        card.setAttribute('data-category', mod.category.toLowerCase().trim());
-
+        
         card.innerHTML = `
             <div class="img-container">
                 <img src="${mod.image}" alt="${mod.name}">
@@ -40,39 +38,28 @@ function renderMods(modsToDisplay) {
     });
 }
 
-// Fixed Search Function
+function filterSelection(category) {
+    console.log("Filtering for:", category);
+    const links = document.querySelectorAll(".sidebar-link");
+    
+    links.forEach(link => link.classList.remove("active"));
+    
+    // Match logic
+    if (category === "all") {
+        renderMods(allMods);
+    } else {
+        const filtered = allMods.filter(mod => mod.category.toLowerCase() === category.toLowerCase());
+        renderMods(filtered);
+    }
+}
+
 function searchMods() {
     const searchTerm = document.getElementById("search").value.toLowerCase();
-    
-    // Filter the global allMods list based on the name or description
     const filtered = allMods.filter(mod => 
         mod.name.toLowerCase().includes(searchTerm) || 
         mod.description.toLowerCase().includes(searchTerm)
     );
-
     renderMods(filtered);
-}
-
-// Fixed Category Function
-function filterSelection(category) {
-    const links = document.getElementsByClassName("sidebar-link");
-    const targetCategory = category.toLowerCase().trim();
-
-    // Update sidebar UI
-    for (let link of links) {
-        link.classList.remove("active");
-        if (link.getAttribute('onclick').includes(`'${category}'`)) {
-            link.classList.add("active");
-        }
-    }
-
-    // Filter the list
-    if (targetCategory === "all") {
-        renderMods(allMods);
-    } else {
-        const filtered = allMods.filter(mod => mod.category.toLowerCase().trim() === targetCategory);
-        renderMods(filtered);
-    }
 }
 
 window.onload = loadMods;

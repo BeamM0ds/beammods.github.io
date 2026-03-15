@@ -4,73 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BeamMods | Premium BeamNG Mods</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0b0e14; color: white; margin: 0; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+        :root {
+            --bg: #0b0e14;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --accent: #3498db;
+            --text-dim: #8b949e;
+        }
+
+        body { background-color: var(--bg); color: white; margin: 0; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
 
         /* HEADER */
         .header { 
-            background: #0b0e14; border-bottom: 1px solid #1c2128; padding: 12px 30px; 
+            background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 24px; 
             display: flex; justify-content: space-between; align-items: center; 
             position: sticky; top: 0; z-index: 1000;
         }
-        .header-left { display: flex; align-items: center; gap: 15px; }
+        .header-left, .header-right { display: flex; align-items: center; gap: 15px; }
 
-        /* CLEAN MENU BUTTON */
-        #menu-toggle {
-            background: #161b22; border: 1px solid #30363d; padding: 10px; 
-            border-radius: 8px; cursor: pointer; display: flex; transition: 0.2s;
-            color: white; font-size: 18px; line-height: 1;
+        /* NORMAL BUTTONS */
+        .btn-action {
+            background: var(--card-bg); border: 1px solid var(--border); width: 40px; height: 40px;
+            border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            color: white; transition: 0.2s; text-decoration: none; font-size: 18px;
         }
-        #menu-toggle:hover { background: #3498db; border-color: #3498db; }
-
-        /* LOGO */
-        .logo { font-weight: 900; letter-spacing: 5px; font-size: 20px; text-transform: uppercase; cursor: pointer; }
-        .logo span { color: #3498db; }
-
-        /* DISCORD & SEARCH AREA */
-        .header-right { display: flex; align-items: center; gap: 12px; }
+        .btn-action:hover { background: var(--border); border-color: var(--accent); color: var(--accent); }
         
-        .discord-btn {
-            background: #5865f2; border: none; width: 40px; height: 40px;
-            border-radius: 8px; display: flex; align-items: center; justify-content: center;
-            text-decoration: none; color: white; transition: 0.2s;
-        }
-        .discord-btn:hover { background: #4752c4; transform: translateY(-2px); }
+        .discord-btn { background: #5865f2; border: none; }
+        .discord-btn:hover { background: #4752c4; transform: translateY(-1px); color: white; }
 
-        .search-container { background: #11141a; border: 1px solid #30363d; border-radius: 6px; padding: 2px 12px; display: flex; }
-        .search-container input { background: transparent; border: none; color: white; padding: 6px 0; width: 180px; outline: none; font-size: 13px; }
+        .logo { font-weight: 800; letter-spacing: 4px; font-size: 20px; text-transform: uppercase; cursor: pointer; }
+        .logo span { color: var(--accent); }
 
-        /* SIDEBAR & LAYOUT */
-        .main-layout { display: flex; max-width: 1400px; margin: 0 auto; padding: 25px; gap: 40px; }
-        .sidebar { width: 240px; flex-shrink: 0; transition: all 0.3s ease; }
-        .sidebar.hidden { width: 0; transform: translateX(-300px); opacity: 0; margin-right: -40px; }
+        .search-container { background: #11141a; border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; display: flex; align-items: center; }
+        .search-container input { background: transparent; border: none; color: white; padding: 8px 0; width: 180px; outline: none; font-size: 13px; }
 
-        .sidebar-title { color: #444; font-size: 10px; font-weight: 800; letter-spacing: 1.5px; margin: 25px 0 10px 12px; text-transform: uppercase; }
+        /* MAIN LAYOUT */
+        .main-layout { display: flex; padding: 25px; gap: 30px; min-height: 90vh; }
+        
+        .sidebar { width: 240px; flex-shrink: 0; transition: 0.3s ease; }
+        .sidebar.hidden { width: 0; opacity: 0; pointer-events: none; margin-right: -30px; transform: translateX(-20px); }
+
+        .sidebar-title { color: #444; font-size: 11px; font-weight: 800; margin: 20px 0 10px 10px; text-transform: uppercase; letter-spacing: 1px; }
         .sidebar-link { 
-            display: flex; align-items: center; color: #8b949e; text-decoration: none; 
-            padding: 10px 14px; border-radius: 8px; margin-bottom: 4px; transition: 0.2s; font-weight: 600; font-size: 13.5px; 
+            display: flex; align-items: center; color: var(--text-dim); text-decoration: none; 
+            padding: 10px 14px; border-radius: 8px; margin-bottom: 4px; transition: 0.2s; font-weight: 600; font-size: 14px; 
         }
-        .sidebar-link:hover { color: white; background: #1c2128; }
-        .sidebar-link.active { background: #1c2128; color: white; border-left: 3px solid #3498db; }
-        .sidebar-link span { margin-right: 12px; font-size: 16px; }
+        .sidebar-link:hover { color: white; background: var(--card-bg); }
+        .sidebar-link.active { background: var(--card-bg); color: white; border-left: 3px solid var(--accent); }
 
         /* MOD GRID */
-        .mods { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%; }
-        .mod-card { background: #161b22; border-radius: 12px; overflow: hidden; border: 1px solid #1c2128; transition: 0.3s; cursor: pointer; }
-        .mod-card:hover { border-color: #3498db; transform: translateY(-4px); }
+        .mods { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; width: 100%; align-content: start; }
+        .mod-card { background: var(--card-bg); border-radius: 12px; overflow: hidden; border: 1px solid var(--border); transition: 0.3s; cursor: pointer; }
+        .mod-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+        
+        /* STATUS MESSAGES */
+        #status-msg { grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-dim); font-size: 16px; }
     </style>
 </head>
 <body>
 
     <header class="header">
         <div class="header-left">
-            <button id="menu-toggle" onclick="toggleSidebar()">☰</button>
+            <button class="btn-action" onclick="toggleSidebar()">☰</button>
             <div class="logo" onclick="window.location.href='index.html'">BEAM<span>MODS</span></div>
         </div>
         <div class="header-right">
-            <a href="YOUR_DISCORD_LINK" target="_blank" class="discord-btn" title="Join Discord">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037 19.736 19.736 0 0 0-4.885 1.515.069.069 0 0 0-.032.027C.533 9.048-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.23 10.23 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.06.06 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.419-2.157 2.419z"/></svg>
+            <a href="https://discord.gg/whUdZ2gTTe" target="_blank" class="btn-action discord-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037 19.736 19.736 0 0 0-4.885 1.515.069.069 0 0 0-.032.027C.533 9.048-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.23 10.23 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.06.06 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.419-2.157 2.419zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.419-2.157 2.419z"/></svg>
             </a>
             <div class="search-container">
                 <input type="text" id="search" placeholder="Search mods..." oninput="searchMods()">
@@ -81,6 +84,19 @@
     <main class="main-layout">
         <aside class="sidebar" id="sidebar-menu">
             <div class="sidebar-title">Main</div>
-            <a href="javascript:void(0)" class="sidebar-link active" onclick="filterSelection('all', this)"><span>🏠</span> All Mods</a>
+            <a href="javascript:void(0)" class="sidebar-link active" onclick="filterSelection('all', this)">🏠 All Mods</a>
             <div class="sidebar-title">Vehicles</div>
-            <a href
+            <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('cars', this)">🏎️ Cars</a>
+            <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('trucks', this)">🚛 Trucks</a>
+            <div class="sidebar-title">World</div>
+            <a href="javascript:void(0)" class="sidebar-link" onclick="filterSelection('maps', this)">🗺️ Maps</a>
+        </aside>
+
+        <section class="mods" id="mods">
+            <div id="status-msg">Loading premium mods...</div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

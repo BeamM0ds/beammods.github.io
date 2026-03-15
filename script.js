@@ -75,3 +75,15 @@ function toggleSidebar() {
 }
 
 window.onload = loadMods;
+
+function searchMods() {
+    const term = document.getElementById('search').value.toLowerCase();
+    
+    // Filter the mods based on the name or author
+    const filtered = allMods.filter(m => 
+        (m.name && m.name.toLowerCase().includes(term)) || 
+        (m.author && m.author.toLowerCase().includes(term))
+    );
+    
+    renderMods(filtered);
+}

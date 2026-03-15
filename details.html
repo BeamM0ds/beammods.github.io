@@ -35,41 +35,56 @@
         <p>Fetching mod data...</p>
     </div>
 
-  <script>
+ <script>
     const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1O-ShYPauFxMhzSSMtBtjYNJWiRSucc0yIKweex6fgis/gviz/tq?tqx=out:csv';
 
     async function loadDetails() {
         const params = new URLSearchParams(window.location.search);
-        // This gets the name from the URL (e.g., Lambo%20Diablo)
-        const modName = decodeURIComponent(params.get('id')); 
+        let modId = params.get('id'); 
+        
+        if (!modId) {
+            document.getElementById('mod-details').innerHTML = "<h2>No mod selected!</h2>";
+            return;
+        }
+
+        const modName = decodeURIComponent(modId).trim().toLowerCase();
 
         try {
             const response = await fetch(SHEET_URL);
             const csvText = await response.text();
             const allMods = parseCSV(csvText);
             
-            // Search the list for the mod that has the exact same name
-            const mod = allMods.find(m => m.name === modName);
+            // Search for the mod (Case-Insensitive for safety)
+            const mod = allMods.find(m => m.name && m.name.trim().toLowerCase() === modName);
 
             if (mod) { 
                 renderPage(mod); 
             } else { 
-                document.getElementById('mod-details').innerHTML = "<h2>Mod not found!</h2><p>We couldn't find a mod named '" + modName + "'.</p>"; 
+                document.getElementById('mod-details').innerHTML = `
+                    <h2>Mod not found!</h2>
+                    <p>We couldn't find a mod named "${decodeURIComponent(modId)}".</p>
+                    <a href="index.html" style="color:#3498db;">Go back to Home</a>`; 
             }
         } catch (e) {
-            console.error(e);
-            document.getElementById('mod-details').innerHTML = "<h2>Connection Error</h2><p>Unable to reach the database.</p>";
+            console.error("Error loading mod:", e);
+            document.getElementById('mod-details').innerHTML = "<h2>Connection Error</h2><p>Check your internet or spreadsheet settings.</p>";
         }
     }
 
     function parseCSV(text) {
         const lines = text.split(/\r?\n/);
+        if (lines.length < 1) return [];
+
         const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim().toLowerCase());
         const result = [];
+
         for (let i = 1; i < lines.length; i++) {
-            if (!lines[i]) continue;
+            if (!lines[i].trim()) continue;
+            
+            // This regex handles commas inside quotes correctly
             const values = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
             const obj = {};
+            
             headers.forEach((header, index) => {
                 let val = values[index] || "";
                 obj[header] = val.replace(/^"|"$/g, '').trim();
@@ -83,15 +98,16 @@
         const container = document.getElementById('mod-details');
         container.innerHTML = `
             <div>
-                <img src="${mod.image}" class="mod-image" onerror="this.src='https://via.placeholder.com/800x450?text=Image+Not+Found'">
-                <div class="description">${mod.description || 'No description provided.'}</div>
+                <img src="${mod.image}" class="mod-image" style="width:100%; border-radius:12px;" onerror="this.src='https://via.placeholder.com/800x450?text=Image+Not+Found'">
+                <div class="description" style="margin-top:20px; line-height:1.6; color:#8b949e;">${mod.description || 'No description provided.'}</div>
             </div>
-            <div class="info-box">
-                <span class="tag-pill">${mod.tag || 'VERIFIED'}</span>
-                <h1 class="mod-title">${mod.name}</h1>
-                <span class="mod-author">by ${mod.author}</span>
-                <p style="font-size: 13px; color: var(--text-dim);">Category: <b>${mod.category}</b></p>
-                <a href="${mod.link}" target="_blank" class="download-btn">Download Mod</a>
+            <div class="info-box" style="background:#161b22; padding:25px; border-radius:12px; border:1px solid #30363d;">
+                <span style="background:#3498db; color:white; padding:4px 10px; border-radius:6px; font-size:11px; font-weight:bold; text-transform:uppercase;">${mod.tag || 'MOD'}</span>
+                <h1 style="margin:15px 0 5px 0; font-size:28px;">${mod.name}</h1>
+                <span style="color:#3498db; font-weight:600;">by ${mod.author || 'Unknown'}</span>
+                <hr style="border:0; border-top:1px solid #30363d; margin:20px 0;">
+                <p style="font-size: 13px; color: #8b949e;">Category: <b style="color:white;">${mod.category}</b></p>
+                <a href="${mod.link}" target="_blank" style="display:block; text-align:center; background:#238636; color:white; padding:15px; border-radius:8px; text-decoration:none; font-weight:bold; margin-top:20px;">Download Mod</a>
             </div>
         `;
         document.title = mod.name + " | BeamMods";

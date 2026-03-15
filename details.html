@@ -38,10 +38,27 @@
     <script>
         const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1O-ShYPauFxMhzSSMtBtjYNJWiRSucc0yIKweex6fgis/gviz/tq?tqx=out:csv';
 
-        async function loadDetails() {
-            const params = new URLSearchParams(window.location.search);
-            const modId = params.get('id');
+       async function loadDetails() {
+    const params = new URLSearchParams(window.location.search);
+    const modName = decodeURIComponent(params.get('id')); // Get the name from the URL
 
+    try {
+        const response = await fetch(SHEET_URL);
+        const csvText = await response.text();
+        const allMods = parseCSV(csvText);
+        
+        // FIX: Look through all mods to find the one with the matching name
+        const mod = allMods.find(m => m.name === modName);
+
+        if (mod) { 
+            renderPage(mod); 
+        } else { 
+            document.getElementById('mod-details').innerHTML = "<h2>Mod not found!</h2>"; 
+        }
+    } catch (e) {
+        document.getElementById('mod-details').innerHTML = "<h2>Connection Error</h2>";
+    }
+}
             try {
                 const response = await fetch(SHEET_URL);
                 const csvText = await response.text();

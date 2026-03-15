@@ -242,3 +242,23 @@ body {
 .discord-icon-btn svg {
     filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
 }
+    /* Add this to your style section */
+.search-wrapper {
+    display: flex;
+    align-items: center;
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 5px 15px;
+    width: 100%;
+    max-width: 300px;
+}
+
+#search {
+    background: transparent;
+    border: none;
+    color: white;
+    outline: none;
+    width: 100%;
+    padding: 5px;
+}

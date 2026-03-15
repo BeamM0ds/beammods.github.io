@@ -6,44 +6,130 @@
     <title>Mod Details | BeamMods</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { background-color: #0b0e14; color: white; font-family: 'Inter', sans-serif; margin: 0; }
-        .header { background: #0b0e14; border-bottom: 1px solid #1c2128; padding: 18px 40px; }
-        .logo { font-weight: 800; letter-spacing: 4px; font-size: 22px; text-transform: uppercase; color: white; cursor: pointer; }
-        .logo span { color: #3498db; }
-        .details-layout { max-width: 1100px; margin: 40px auto; display: grid; grid-template-columns: 1fr 350px; gap: 40px; padding: 0 20px; }
-        .hero-img { width: 100%; border-radius: 12px; border: 1px solid #1c2128; }
-        .description-box { background: #161b22; padding: 25px; border-radius: 12px; border: 1px solid #1c2128; margin-top: 20px; color: #b1b8c0; }
-        .sidebar-card { background: #161b22; padding: 25px; border-radius: 15px; border: 1px solid #1c2128; height: fit-content; }
-        .dl-button { display: block; background: #3498db; color: white; text-align: center; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: 700; margin-bottom: 20px; }
-        .info-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #21262d; font-size: 14px; color: #8b949e; }
-        .info-row span { color: white; font-weight: 600; }
+        :root {
+            --bg: #0b0e14;
+            --card-bg: #161b22;
+            --border: #30363d;
+            --accent: #3498db;
+            --text-dim: #8b949e;
+        }
+
+        body { background-color: var(--bg); color: white; margin: 0; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+
+        /* HEADER */
+        .header { 
+            background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 24px; 
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .back-btn {
+            background: var(--card-bg); border: 1px solid var(--border); padding: 8px 16px;
+            border-radius: 8px; color: white; text-decoration: none; font-size: 14px; font-weight: 600;
+            transition: 0.2s;
+        }
+        .back-btn:hover { border-color: var(--accent); background: var(--border); }
+
+        /* CONTENT LAYOUT */
+        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 350px; gap: 40px; }
+
+        .mod-image { width: 100%; border-radius: 12px; border: 1px solid var(--border); aspect-ratio: 16/9; object-fit: cover; }
+        
+        .info-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 25px; height: fit-content; }
+        
+        .mod-title { font-size: 32px; font-weight: 800; margin: 0 0 10px 0; }
+        .mod-author { color: var(--accent); font-weight: 600; margin-bottom: 20px; display: block; }
+        
+        .description { line-height: 1.6; color: #ccc; font-size: 15px; margin-top: 20px; white-space: pre-wrap; }
+
+        .download-btn {
+            display: block; text-align: center; background: var(--accent); color: white;
+            padding: 16px; border-radius: 10px; text-decoration: none; font-weight: 800;
+            font-size: 16px; margin-top: 20px; transition: 0.3s;
+        }
+        .download-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
+
+        .tag-pill { background: #232a35; color: var(--text-dim); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 15px; display: inline-block; }
+
+        /* MOBILE FIX */
+        @media (max-width: 850px) {
+            .container { grid-template-columns: 1fr; }
+            .info-box { order: 2; }
+        }
     </style>
 </head>
 <body>
-    <header class="header"><div class="logo" onclick="window.location.href='index.html'">BEAM<span>MODS</span></div></header>
-    <main class="details-layout" id="details-content"></main>
+
+    <header class="header">
+        <a href="index.html" class="back-btn">← Back to Gallery</a>
+        <div style="font-weight: 800; letter-spacing: 2px;">BEAM<span>MODS</span></div>
+        <div style="width: 120px;"></div> </header>
+
+    <div class="container" id="mod-details">
+        <p>Loading mod specifications...</p>
+    </div>
+
     <script>
+        const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1O-ShYPauFxMhzSSMtBtjYNJWiRSucc0yIKweex6fgis/gviz/tq?tqx=out:csv';
+
         async function loadDetails() {
             const params = new URLSearchParams(window.location.search);
-            const id = params.get('id');
-            const response = await fetch('mods.json?t=' + Date.now());
-            const mods = await response.json();
-            const mod = mods[id];
-            document.getElementById('details-content').innerHTML = `
-                <div>
-                    <img src="${mod.image}" class="hero-img">
-                    <h1 style="font-weight:800; margin:25px 0 5px;">${mod.name}</h1>
-                    <p style="color:#555; margin-bottom:20px;">by <span style="color:#3498db;">${mod.author || 'Royal Renderings'}</span></p>
-                    <div class="description-box">${mod.description}</div>
-                </div>
-                <aside class="sidebar-card">
-                    <a href="${mod.download}" class="dl-button">Download Now</a>
-                    <div class="info-row">Category <span>${mod.category}</span></div>
-                    <div class="info-row">Author <span>${mod.author || 'Royal Renderings'}</span></div>
-                    <div class="info-row">Version <span>1.4</span></div>
-                    <div class="info-row">Status <span>${mod.tag || 'NEW'}</span></div>
-                </aside>`;
+            const modId = params.get('id');
+
+            try {
+                const response = await fetch(SHEET_URL);
+                const csvText = await response.text();
+                const allMods = parseCSV(csvText);
+                const mod = allMods[modId];
+
+                if (mod) {
+                    renderPage(mod);
+                } else {
+                    document.getElementById('mod-details').innerHTML = "<h2>Mod not found!</h2>";
+                }
+            } catch (e) {
+                document.getElementById('mod-details').innerHTML = "<h2>Error loading data.</h2>";
+            }
         }
+
+        function parseCSV(text) {
+            const lines = text.split(/\r?\n/);
+            const headers = lines[0].split(',').map(h => h.replace(/"/g, '').trim().toLowerCase());
+            const result = [];
+            for (let i = 1; i < lines.length; i++) {
+                if (!lines[i]) continue;
+                const values = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+                const obj = {};
+                headers.forEach((header, index) => {
+                    let val = values[index] || "";
+                    obj[header] = val.replace(/^"|"$/g, '').trim();
+                });
+                result.push(obj);
+            }
+            return result;
+        }
+
+        function renderPage(mod) {
+            const container = document.getElementById('mod-details');
+            container.innerHTML = `
+                <div>
+                    <img src="${mod.image}" class="mod-image" onerror="this.src='https://via.placeholder.com/800x450'">
+                    <div class="description">${mod.description}</div>
+                </div>
+                <div class="info-box">
+                    <span class="tag-pill">${mod.tag || 'VERIFIED MOD'}</span>
+                    <h1 class="mod-title">${mod.name}</h1>
+                    <span class="mod-author">Created by ${mod.author}</span>
+                    
+                    <div style="border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px;">
+                        <p style="font-size: 13px; color: var(--text-dim);">Category: <b>${mod.category}</b></p>
+                    </div>
+
+                    <a href="${mod.link}" target="_blank" class="download-btn">Download Mod</a>
+                    <p style="font-size: 11px; color: gray; text-align: center; margin-top: 15px;">Secure download via external host</p>
+                </div>
+            `;
+            document.title = `${mod.name} | BeamMods`;
+        }
+
         window.onload = loadDetails;
     </script>
 </body>

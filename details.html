@@ -6,54 +6,21 @@
     <title>Mod Details | BeamMods</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #0b0e14;
-            --card-bg: #161b22;
-            --border: #30363d;
-            --accent: #3498db;
-            --text-dim: #8b949e;
-        }
-
-        body { background-color: var(--bg); color: white; margin: 0; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-
-        /* HEADER */
-        .header { 
-            background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 24px; 
-            display: flex; align-items: center; justify-content: space-between;
-        }
-        .back-btn {
-            background: var(--card-bg); border: 1px solid var(--border); padding: 8px 16px;
-            border-radius: 8px; color: white; text-decoration: none; font-size: 14px; font-weight: 600;
-            transition: 0.2s;
-        }
+        :root { --bg: #0b0e14; --card-bg: #161b22; --border: #30363d; --accent: #3498db; --text-dim: #8b949e; }
+        body { background-color: var(--bg); color: white; margin: 0; font-family: 'Inter', sans-serif; }
+        .header { background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; }
+        .back-btn { background: var(--card-bg); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; color: white; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.2s; }
         .back-btn:hover { border-color: var(--accent); background: var(--border); }
-
-        /* CONTENT LAYOUT */
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 350px; gap: 40px; }
-
         .mod-image { width: 100%; border-radius: 12px; border: 1px solid var(--border); aspect-ratio: 16/9; object-fit: cover; }
-        
         .info-box { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 25px; height: fit-content; }
-        
         .mod-title { font-size: 32px; font-weight: 800; margin: 0 0 10px 0; }
         .mod-author { color: var(--accent); font-weight: 600; margin-bottom: 20px; display: block; }
-        
         .description { line-height: 1.6; color: #ccc; font-size: 15px; margin-top: 20px; white-space: pre-wrap; }
-
-        .download-btn {
-            display: block; text-align: center; background: var(--accent); color: white;
-            padding: 16px; border-radius: 10px; text-decoration: none; font-weight: 800;
-            font-size: 16px; margin-top: 20px; transition: 0.3s;
-        }
+        .download-btn { display: block; text-align: center; background: var(--accent); color: white; padding: 16px; border-radius: 10px; text-decoration: none; font-weight: 800; font-size: 16px; margin-top: 20px; transition: 0.3s; }
         .download-btn:hover { filter: brightness(1.2); transform: translateY(-2px); }
-
         .tag-pill { background: #232a35; color: var(--text-dim); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 15px; display: inline-block; }
-
-        /* MOBILE FIX */
-        @media (max-width: 850px) {
-            .container { grid-template-columns: 1fr; }
-            .info-box { order: 2; }
-        }
+        @media (max-width: 850px) { .container { grid-template-columns: 1fr; } .info-box { order: 2; } }
     </style>
 </head>
 <body>
@@ -61,10 +28,11 @@
     <header class="header">
         <a href="index.html" class="back-btn">← Back to Gallery</a>
         <div style="font-weight: 800; letter-spacing: 2px;">BEAM<span>MODS</span></div>
-        <div style="width: 120px;"></div> </header>
+        <div style="width: 100px;"></div>
+    </header>
 
     <div class="container" id="mod-details">
-        <p>Loading mod specifications...</p>
+        <p>Fetching mod data...</p>
     </div>
 
     <script>
@@ -80,13 +48,10 @@
                 const allMods = parseCSV(csvText);
                 const mod = allMods[modId];
 
-                if (mod) {
-                    renderPage(mod);
-                } else {
-                    document.getElementById('mod-details').innerHTML = "<h2>Mod not found!</h2>";
-                }
+                if (mod) { renderPage(mod); } 
+                else { document.getElementById('mod-details').innerHTML = "<h2>Mod not found!</h2>"; }
             } catch (e) {
-                document.getElementById('mod-details').innerHTML = "<h2>Error loading data.</h2>";
+                document.getElementById('mod-details').innerHTML = "<h2>Connection Error</h2>";
             }
         }
 
@@ -112,24 +77,18 @@
             container.innerHTML = `
                 <div>
                     <img src="${mod.image}" class="mod-image" onerror="this.src='https://via.placeholder.com/800x450'">
-                    <div class="description">${mod.description}</div>
+                    <div class="description">${mod.description || 'No description provided.'}</div>
                 </div>
                 <div class="info-box">
-                    <span class="tag-pill">${mod.tag || 'VERIFIED MOD'}</span>
+                    <span class="tag-pill">${mod.tag || 'VERIFIED'}</span>
                     <h1 class="mod-title">${mod.name}</h1>
-                    <span class="mod-author">Created by ${mod.author}</span>
-                    
-                    <div style="border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px;">
-                        <p style="font-size: 13px; color: var(--text-dim);">Category: <b>${mod.category}</b></p>
-                    </div>
-
+                    <span class="mod-author">by ${mod.author}</span>
+                    <p style="font-size: 13px; color: var(--text-dim);">Category: <b>${mod.category}</b></p>
                     <a href="${mod.link}" target="_blank" class="download-btn">Download Mod</a>
-                    <p style="font-size: 11px; color: gray; text-align: center; margin-top: 15px;">Secure download via external host</p>
                 </div>
             `;
-            document.title = `${mod.name} | BeamMods`;
+            document.title = mod.name + " | BeamMods";
         }
-
         window.onload = loadDetails;
     </script>
 </body>
